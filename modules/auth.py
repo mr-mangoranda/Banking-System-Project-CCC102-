@@ -1,98 +1,85 @@
-# modules/auth.py
 import hashlib
-import uuid
 from utils.file_io import read_json, write_json
 
-class Customer:
-    def __init__(self, email, name, phone, address, password):
-        self.email = email
-        self.name = name
-        self.phone = phone
-        self.address = address
-        self.password = self.hash_password(password)
-        self.accounts = {}
-
-    def hash_password(self, password):
-        return hashlib.sha256(password.encode()).hexdigest()
-
-    def to_dict(self):
-        return {
-            "password": self.password,
-            "name": self.name,
-            "phone": self.phone,
-            "address": self.address,
-            "accounts": self.accounts
-        }
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def register_user():
     users = read_json("data/users.json")
-    email = input("Enter your email: ").strip()
 
-    if email in users:
-        print("User already exists.")
+    username = input("Enter username: ")
+    if username in users:
+        print("Username already exists.")
         return
 
-    name = input("Enter your name: ")
-    phone = input("Enter your phone: ")
-    address = input("Enter your address: ")
-    password = input("Enter your password: ")
+    password = input("Enter password: ")
+    hashed_pw = hash_password(password)
 
-    customer = Customer(email, name, phone, address, password)
-    users[email] = customer.to_dict()
+    profile = {
+        "password": hashed_pw,
+        "address": input("Enter address: "),
+        "phone": input("Enter phone number: "),
+        "accounts": []  
+    }
+
+    users[username] = profile
     write_json("data/users.json", users)
-
-    print("Registration successful!")
+    print("Registration successful.")
 
 def login():
     users = read_json("data/users.json")
-    email = input("Enter email: ").strip()
-    password = input("Enter password: ")
-    hashed_input = hashlib.sha256(password.encode()).hexdigest()
 
-    user = users.get(email)
-    if user and user["password"] == hashed_input:
-        print(f"Welcome back, {user['name']}!")
-        return email  # Logged-in user email
-    else:
-        print("Invalid credentials.")
+    username = input("Enter username: ")
+    password = input("Enter password: ")
+
+    if username not in users:
+        print("User not found.")
         return None
 
-def update_profile(email):
-    users = read_json("data/users.json")
-    user = users.get(email)
+    if users[username]["password"] != hash_password(password):
+        print("Incorrect password.")
+        return None
 
-    if not user:
+    print("Login successful.")
+    return username
+
+def update_profile(username):
+    users = read_json("data/users.json")
+
+    if username not in users:
         print("User not found.")
         return
 
-    print("Update Profile:")
-    user["phone"] = input("New phone: ")
-    user["address"] = input("New address: ")
+    print("\nUpdate Profile:")
+    address = input("Enter new address: ")
+    phone = input("Enter new phone number: ")
 
-    users[email] = user
+    users[username]["address"] = address
+    users[username]["phone"] = phone
     write_json("data/users.json", users)
     print("Profile updated.")
 
-def create_account(email):
+def create_account(username):
     users = read_json("data/users.json")
-    user = users[email]
+    accounts = read_json("data/accounts.json")
 
-    acc_type = input("Enter account type (checking/savings): ").lower()
-    if acc_type in user["accounts"]:
-        print(f"{acc_type.capitalize()} account already exists.")
+    if username not in users:
+        print("User not found.")
         return
 
-    acc_number = "ACC" + str(uuid.uuid4().int)[0:8]
-    user["accounts"][acc_type] = acc_number
-    users[email] = user
+    account_number = input("Enter new account number: ")
+    if account_number in accounts:
+        print("Account number already exists.")
+        return
+
+    accounts[account_number] = {
+        "owner": username,
+        "balance": 0.0
+    }
+
+    users[username]["accounts"].append(account_number)
+
+    write_json("data/accounts.json", accounts)
     write_json("data/users.json", users)
 
-    accounts = read_json("data/accounts.json")
-    accounts[acc_number] = {
-        "balance": 0.0,
-        "type": acc_type,
-        "owner": email
-    }
-    write_json("data/accounts.json", accounts)
-
-    print(f"{acc_type.capitalize()} account created: {acc_number}")
+    print(f"Account {account_number} created successfully.")
