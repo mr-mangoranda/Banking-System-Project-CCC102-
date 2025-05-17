@@ -19,7 +19,10 @@ def main_menu():
         elif choice == "3":
             admin_user = auth.admin_login()
             if admin_user:
-                admin_menu()
+                while True:
+                    admin_menu()
+                    if not admin_user:
+                        break
         elif choice == "0":
             print("Goodbye!")
             break

@@ -67,6 +67,18 @@ def login():
     print(f"Welcome back, {username}!")
     return username
 
+def admin_login():
+    print("\n=== Admin Login ===")
+    username = input("Enter admin username: ")
+    password = input("Enter admin password: ")
+
+    if username == "admin" and password == "admin123":
+        print("Admin login successful!")
+        return True
+    else:
+        print("Invalid credentials.")
+        return False
+
 def update_profile(username):
     users = read_json("data/users.json")
 
