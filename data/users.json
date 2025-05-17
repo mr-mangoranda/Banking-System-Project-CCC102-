@@ -6,5 +6,13 @@
         "accounts": [
             "12345"
         ]
+    },
+    "Hamza": {
+        "password": "$2b$12$U5N3mz.4TIyJTLZtFuoSBu2iko2HpBYAI1Hr4Dr1hKM/s2xzOZ9j6",
+        "address": "Marantao",
+        "phone": "09107121322",
+        "accounts": [
+            "9999"
+        ]
     }
 }

@@ -2,5 +2,10 @@
     "12345": {
         "owner": "Habib",
         "balance": 2000.0
+    },
+    "9999": {
+        "owner": "Hamza",
+        "balance": 0.0,
+        "type": "Saving"
     }
 }

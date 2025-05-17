@@ -1,4 +1,5 @@
 from utils.file_io import read_json, write_json
+from datetime import datetime
 
 def deposit(account_number):
     accounts = read_json("data/accounts.json")
@@ -19,9 +20,12 @@ def deposit(account_number):
 
     accounts[account_number]["balance"] += amount
 
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     transactions.setdefault(account_number, []).append({
         "type": "deposit",
-        "amount": amount
+        "amount": amount,
+        "timestamp": timestamp
     })
 
     write_json("data/accounts.json", accounts)
@@ -51,9 +55,12 @@ def withdraw(account_number):
 
     accounts[account_number]["balance"] -= amount
 
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     transactions.setdefault(account_number, []).append({
         "type": "withdraw",
-        "amount": amount
+        "amount": amount,
+        "timestamp": timestamp
     })
 
     write_json("data/accounts.json", accounts)
