@@ -1,0 +1,12 @@
+{
+    "12345": [
+        {
+            "type": "deposit",
+            "amount": 5000.0
+        },
+        {
+            "type": "withdraw",
+            "amount": 3000.0
+        }
+    ]
+}

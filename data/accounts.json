@@ -1,7 +1,6 @@
 {
-    "ACC35345258": {
-        "balance": 0.0,
-        "type": "savings",
-        "owner": "mangorandahabib15@gmail.com"
+    "12345": {
+        "owner": "Habib",
+        "balance": 2000.0
     }
 }

@@ -1,9 +1,6 @@
-# modules/menu.py
 from modules import auth, transaction
 
 def main_menu():
-    logged_in = None
-
     while True:
         print("\n=== BANK SYSTEM ===")
         print("1. Register")
@@ -15,9 +12,9 @@ def main_menu():
         if choice == "1":
             auth.register_user()
         elif choice == "2":
-            logged_in = auth.login()
-            if logged_in:
-                user_menu(logged_in)
+            user = auth.login()
+            if user:
+                user_menu(user)
         elif choice == "3":
             print("Goodbye!")
             break

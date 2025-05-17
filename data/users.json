@@ -1,12 +1,10 @@
 {
-    "mangorandahabib15@gmail.com": {
+    "Habib": {
         "password": "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",
-        "name": "Habib",
-        "phone": "09107121699",
         "address": "Marantao",
-        "accounts": {
-            "checking": "ACC26987935",
-            "savings": "ACC35345258"
-        }
+        "phone": "09107121699",
+        "accounts": [
+            "12345"
+        ]
     }
 }
