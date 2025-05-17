@@ -1,11 +1,12 @@
-from modules import auth, transaction, funds
+from modules import auth, transaction, funds, loan, admin
 
 def main_menu():
     while True:
         print("\n=== BANK SYSTEM ===")
         print("1. Register")
         print("2. Login")
-        print("3. Exit")
+        print("3. Admin Login")
+        print("0. Exit")
 
         choice = input("Choose an option: ")
 
@@ -16,6 +17,10 @@ def main_menu():
             if user:
                 user_menu(user)
         elif choice == "3":
+            admin_user = auth.admin_login()
+            if admin_user:
+                admin_menu()
+        elif choice == "0":
             print("Goodbye!")
             break
         else:
@@ -92,6 +97,52 @@ def funds_menu(user):
         elif choice == "4":
             funds.generate_transaction_report(acc_num)
         elif choice == "5":
+            break
+        else:
+            print("Invalid option.")
+
+def loan_menu(user):
+    while True:
+        print("\n=== Loan Menu ===")
+        print("1. Apply for Loan")
+        print("2. View Loan Status")
+        print("3. Make Loan Payment")
+        print("4. Back")
+
+        choice = input("Choose an option: ")
+        if choice == "1":
+            loan.apply_for_loan(user)
+        elif choice == "2":
+            loan.view_loan_status(user)
+        elif choice == "3":
+            loan.make_loan_payment(user)
+        elif choice == "4":
+            break
+        else:
+            print("Invalid option.")
+
+def admin_menu():
+    while True:
+        print("\n=== Admin Menu ===")
+        print("1. Approve Loans")
+        print("2. View All Users")
+        print("3. View All Accounts")
+        print("4. View All Transactions")
+        print("5. View All Loans")
+        print("6. Back")
+
+        choice = input("Choose an option: ")
+        if choice == "1":
+            admin.approve_loans()
+        elif choice == "2":
+            admin.view_all_users()
+        elif choice == "3":
+            admin.view_all_accounts()
+        elif choice == "4":
+            admin.view_all_transactions()
+        elif choice == "5":
+            admin.view_all_loans()
+        elif choice == "6":
             break
         else:
             print("Invalid option.")
